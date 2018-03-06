@@ -1,0 +1,213 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 740e3a72aec82c147ba72d7ab4df09ee, type: 3}
+  m_Name: Tutorial
+  m_EditorClassIdentifier: 
+  entries:
+  - id: TutorialStart
+    maxLineId: 29
+    speakers:
+    - Tutorial
+    - User
+  lines:
+  - id: 0
+    dialogueEntry: TutorialStart
+    dialogue: 
+    output: 01000000
+    position: {x: 10, y: 10}
+    userData: 
+    speaker: 
+  - id: 1
+    dialogueEntry: TutorialStart
+    dialogue: Hello and Welcome to the tutorial on the Dialogue Editor extension.
+    output: 02000000
+    position: {x: 159, y: 9}
+    userData: 
+    speaker: Tutorial
+  - id: 2
+    dialogueEntry: TutorialStart
+    dialogue: This tutorials aim is to provide a howto and information on the Dialogue
+      Editor extension.
+    output: 03000000
+    position: {x: 306, y: 8}
+    userData: 
+    speaker: Tutorial
+  - id: 3
+    dialogueEntry: TutorialStart
+    dialogue: Which elements would you like to have some more information on?
+    output: 040000000600000005000000
+    position: {x: 447, y: 11}
+    userData: 
+    speaker: Tutorial
+  - id: 4
+    dialogueEntry: TutorialStart
+    dialogue: I would like to know more about the editor window.
+    output: 07000000
+    position: {x: 632, y: -91}
+    userData: 1
+    speaker: User
+  - id: 5
+    dialogueEntry: TutorialStart
+    dialogue: I would like to know more about the usage in scripts
+    output: 0c000000
+    position: {x: 620, y: 108}
+    userData: 2
+    speaker: User
+  - id: 6
+    dialogueEntry: TutorialStart
+    dialogue: I don't need more information. I already know enough.
+    output: 
+    position: {x: 434, y: 115}
+    userData: 3
+    speaker: User
+  - id: 7
+    dialogueEntry: TutorialStart
+    dialogue: The Dialogue Editor screen can be accesed in the unity editor through
+      the window menu item.
+    output: 08000000
+    position: {x: 772, y: -91}
+    userData: image:0
+    speaker: Tutorial
+  - id: 8
+    dialogueEntry: TutorialStart
+    dialogue: The window itself is divided into 2 parts.
+    output: 09000000
+    position: {x: 913, y: -95}
+    userData: image:0
+    speaker: Tutorial
+  - id: 9
+    dialogueEntry: TutorialStart
+    dialogue: At the top left side there is a combobox to select the dialogue file
+      you want to edit. Next to this combobox are 2 buttons. The "+" button creates
+      a new file, and the "-" button deletes the currently selected file.
+    output: 0a000000
+    position: {x: 1043, y: -96}
+    userData: image:1
+    speaker: Tutorial
+  - id: 10
+    dialogueEntry: TutorialStart
+    dialogue: Just below those controls, is a list that shows all the currently defined
+      dialogues in the selected file. And below that, are buttons for adding and removing
+      dialogues.
+    output: 0b000000
+    position: {x: 1187, y: -95}
+    userData: image:2
+    speaker: Tutorial
+  - id: 11
+    dialogueEntry: TutorialStart
+    dialogue: The right side of the window contains the graph of the dialogue. Below
+      that graph, is the text area that contains the text of the currently selected
+      node.
+    output: 15000000
+    position: {x: 1327, y: -95}
+    userData: image:3
+    speaker: Tutorial
+  - id: 12
+    dialogueEntry: TutorialStart
+    dialogue: The script to use the dialogue system is divided into three parts.
+    output: 0d000000
+    position: {x: 770, y: 108}
+    userData: 
+    speaker: Tutorial
+  - id: 13
+    dialogueEntry: TutorialStart
+    dialogue: The first part is to load the correct dialogue file. This is done using
+      DialogueManager.LoadDialogueFile. This is usualy done only once per scene/script.
+    output: 0f000000
+    position: {x: 920, y: 108}
+    userData: image:6
+    speaker: Tutorial
+  - id: 15
+    dialogueEntry: TutorialStart
+    dialogue: The next part is to open the correct dialogue. This is done using manager.GetDialogue.
+      This function returns an interface to the dialogue itself.
+    output: 11000000
+    position: {x: 1059, y: 109}
+    userData: image:6
+    speaker: Tutorial
+  - id: 17
+    dialogueEntry: TutorialStart
+    dialogue: 'The function Start() returns the dialogue to the begining. '
+    output: 12000000
+    position: {x: 772, y: 181}
+    userData: image:6
+    speaker: Tutorial
+  - id: 18
+    dialogueEntry: TutorialStart
+    dialogue: The function GetChoices returns an array of all the choices available.
+      If it is a linear conversation, then there will be only one choice returned.
+    output: 13000000
+    position: {x: 917, y: 179}
+    userData: image:7
+    speaker: Tutorial
+  - id: 19
+    dialogueEntry: TutorialStart
+    dialogue: With PickChoice() you select the choice that was made and the conversation
+      continues.
+    output: 14000000
+    position: {x: 1059, y: 179}
+    userData: image:7
+    speaker: Tutorial
+  - id: 20
+    dialogueEntry: TutorialStart
+    dialogue: So in a normal situation, you will constantly be doing GetChoices and
+      PickChoice to keep the dialogue going.
+    output: 03000000
+    position: {x: 1215, y: 181}
+    userData: 
+    speaker: Tutorial
+  - id: 21
+    dialogueEntry: TutorialStart
+    dialogue: The graph contains a nodes which represent one line of a dialogue. When
+      you select a node, buttons appear round it. These buttons can be used to perform
+      various actions.
+    output: 18000000
+    position: {x: 1472, y: -93}
+    userData: image:4
+    speaker: Tutorial
+  - id: 24
+    dialogueEntry: TutorialStart
+    dialogue: You can move the node around by click-dragging its titlebar. Below the
+      titlebar is a combobox through which you can select the speaker of the current
+      line.
+    output: 19000000
+    position: {x: 775, y: -20}
+    userData: image:5
+    speaker: Tutorial
+  - id: 25
+    dialogueEntry: TutorialStart
+    dialogue: Below the speaker combobox, is a textfield for userdata. This data will
+      be supplied to the script when the line is reached. This can be used to supply
+      metadata such as image names to the scripts.
+    output: 1a000000
+    position: {x: 926, y: -21}
+    userData: image:5
+    speaker: Tutorial
+  - id: 26
+    dialogueEntry: TutorialStart
+    dialogue: There are 4 buttons on the outside of the node, that have various functions.
+      The small 'x' button at the top is used to delete a node. The '+' button on
+      the right is used to create a new node. The newly created node will be automaticly
+      connected to the current node.
+    output: 1b000000
+    position: {x: 1076, y: -16}
+    userData: image:5
+    speaker: Tutorial
+  - id: 27
+    dialogueEntry: TutorialStart
+    dialogue: The 'X' to the left is to disconnect an incoming link. You do that by
+      clicking the button and then clicking the titlebar of the node you want to disconnect
+      from. The '->' button on the right side is used to create new outgoing links.
+      The usage is the same as the disconnect button.
+    output: 03000000
+    position: {x: 1225, y: -15}
+    userData: image:5
+    speaker: Tutorial
