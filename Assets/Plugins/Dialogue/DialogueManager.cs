@@ -68,24 +68,27 @@
  * \copyright Sander Homan 2012
  */
 
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using MiniJSON;
 using UnityEngine;
-
+using UnityEngine.Networking;
 /// <summary>
 /// This class contains all the lines and userdata configured for a specific dialogue
 /// </summary>
-public class Dialogue
-{
-    private Dictionary<int, DialogueFile.DialogueLine> lines = new Dictionary<int, DialogueFile.DialogueLine>();
+[Serializable]
+public class Dialogue {
+    private Dictionary<int, DialogueFile.DialogueLine> lines = new Dictionary<int, DialogueFile.DialogueLine> ();
 
     private int currentIndex = 0;
 
     /// <summary>
     /// The choice class contains all the data of a node in the dialogue
     /// </summary>
-    public class Choice
-    {
+    [Serializable]
+    public class Choice {
         /// <summary>
         /// Used internally. The identifier of a choice
         /// </summary>
@@ -108,16 +111,14 @@ public class Dialogue
     /// Used internally. Adds a line to the dialogue.
     /// </summary>
     /// <param name="line">The line to be added</param>
-    public void AddLine(DialogueFile.DialogueLine line)
-    {
-        lines.Add(line.id, line);
+    public void AddLine (DialogueFile.DialogueLine line) {
+        lines.Add (line.id, line);
     }
 
     /// <summary>
     /// Resets the dialogue to the start
     /// </summary>
-    public void Start()
-    {
+    public void Start () {
         // set up the start of the dialogue
         currentIndex = 0;
     }
@@ -126,29 +127,26 @@ public class Dialogue
     /// Gets all the possible choices for the current dialogue node
     /// </summary>
     /// <returns>An array of type Choice containing all the possible choices</returns>
-    public Choice[] GetChoices()
-    {
-        List<Choice> choices = new List<Choice>();
+    public Choice[] GetChoices () {
+        List<Choice> choices = new List<Choice> ();
 
-        foreach (int id in lines[currentIndex].output)
-        {
-            Choice c = new Choice();
+        foreach (int id in lines[currentIndex].output) {
+            Choice c = new Choice ();
             c.id = id;
             c.dialogue = lines[id].dialogue;
             c.speaker = lines[id].speaker;
             c.userData = lines[id].userData;
-            choices.Add(c);
+            choices.Add (c);
         }
 
-        return choices.ToArray();
+        return choices.ToArray ();
     }
 
     /// <summary>
     /// Advanced the dialogue with the given choice. Could also be used to jump to a different position in the dialogue, but this is not recommended.
     /// </summary>
     /// <param name="c"></param>
-    public void PickChoice(Choice c)
-    {
+    public void PickChoice (Choice c) {
         currentIndex = c.id;
     }
 }
@@ -163,18 +161,17 @@ public class Dialogue
 /// </code>
 /// </example>
 /// </summary>
-public class DialogueManager
-{
-    private static Dictionary<DialogueFile, DialogueManager> managers = new Dictionary<DialogueFile, DialogueManager>();
+[Serializable]
+public class DialogueManager {
+    private static Dictionary<DialogueFile, DialogueManager> managers = new Dictionary<DialogueFile, DialogueManager> ();
 
     /// <summary>
     /// Load a dialogue file from the resources folder.
     /// </summary>
     /// <param name="resourcePath">The path in the Resource folder</param>
     /// <returns>A DialogueManager holding the file reference</returns>
-    public static DialogueManager LoadDialogueFile(string resourcePath)
-    {
-        return LoadDialogueFile(Resources.Load(resourcePath) as DialogueFile);
+    public static DialogueManager LoadDialogueFile (string resourcePath) {
+        return LoadDialogueFile (Resources.Load (resourcePath) as DialogueFile);
     }
 
     /// <summary>
@@ -182,24 +179,21 @@ public class DialogueManager
     /// </summary>
     /// <param name="file">A reference to a DialogueFile</param>
     /// <returns>A DialogueManager holding the file reference</returns>
-    public static DialogueManager LoadDialogueFile(DialogueFile file)
-    {
-        
-        if (managers.ContainsKey(file))
+    public static DialogueManager LoadDialogueFile (DialogueFile file) {
+
+        if (managers.ContainsKey (file))
             return managers[file];
 
         // load file, optimize for searching dialogues
-        DialogueManager manager = new DialogueManager();
-        managers.Add(file, manager);
+        DialogueManager manager = new DialogueManager ();
+        managers.Add (file, manager);
 
         manager.file = file;
 
         return manager;
     }
 
-    private DialogueManager()
-    {
-    }
+    private DialogueManager () { }
 
     private DialogueFile file;
 
@@ -208,19 +202,55 @@ public class DialogueManager
     /// </summary>
     /// <param name="dialogueName">The name of the dialogue</param>
     /// <returns>A Dialogue containing all the lines</returns>
-    public Dialogue GetDialogue(string dialogueName)
-    {
+    public Dialogue GetDialogue (string dialogueName) {
         // create the dialogue and return it
-        Dialogue result = new Dialogue();
+        Dialogue result = new Dialogue ();
 
         // get the lines
-        foreach (DialogueFile.DialogueLine line in file.lines)
-        {
+        foreach (DialogueFile.DialogueLine line in file.lines) {
             if (line.dialogueEntry == dialogueName)
-                result.AddLine(line);
+                result.AddLine (line);
         }
-
         return result;
     }
 }
 
+public class OnlineDialogue : MonoBehaviour {
+    string JSONText = "";
+
+    public string GetJSON (string url) {
+        StartCoroutine (GetText (url));
+        return JSONText;
+    }
+
+    /*public Dialogue MakeDialogueFromJSON (string json) {
+        Dictionary<string, object> jValue = new Dictionary<string, object> ();
+        Dialogue dialogue = new Dialogue ();
+        return new Dialogue ();
+    }
+    //Tries to convert any json into a Dialogue JSON
+    public string ValidateJSON (string json, string id_name, string speaker_name, string dialogue_name, string userdata_name) {
+        //Normally this requires  the user to translateg and add anything that may be missing.
+        GetJSON (json);
+        Dictionary<string, object> jValue = new Dictionary<string, object> ();
+        jValue = Json.Deserialize (JSONText) as Dictionary<string, object>;
+        string nJson = "{\n\"entries\": [\n{\"id\":\"Main\",\n\"maxLineId\": 1,\n\"speakers\": [ \"" + jValue[speaker_name] + "\n}\n],";
+        Debug.Log (jValue);
+        for (int i = 0; i < jValue.Count; i++) {
+
+        }
+
+        return "";
+    }*/
+
+    public IEnumerator GetText (string url) {
+        UnityWebRequest webReuest = UnityWebRequest.Get (url);
+        yield return webReuest.SendWebRequest ();
+        if (webReuest.isNetworkError || webReuest.isHttpError) {
+            JSONText = "ERROR\n" + webReuest.error;
+            Debug.Log (JSONText);
+        } else {
+            JSONText = webReuest.downloadHandler.text;
+        }
+    }
+}
