@@ -127,11 +127,11 @@ public class Dialogue {
     /// Gets all the possible choices for the current dialogue node
     /// </summary>
     /// <returns>An array of type Choice containing all the possible choices</returns>
-    public Choice[] GetChoices () {
+    public List<Choice> GetChoices () {
         List<Choice> choices = new List<Choice> ();
 
         foreach (int id in lines[currentIndex].output) {
-            Choice c = new Choice ();
+            Choice c = new Choice ();   
             c.id = id;
             c.dialogue = lines[id].dialogue;
             c.speaker = lines[id].speaker;
@@ -139,7 +139,7 @@ public class Dialogue {
             choices.Add (c);
         }
 
-        return choices.ToArray ();
+        return choices; //.ToArray ();
     }
 
     /// <summary>
@@ -147,7 +147,7 @@ public class Dialogue {
     /// </summary>
     /// <param name="c"></param>
     public void PickChoice (Choice c) {
-        currentIndex = c.id;
+        currentIndex = c.id;    
     }
 }
 
@@ -180,7 +180,6 @@ public class DialogueManager {
     /// <param name="file">A reference to a DialogueFile</param>
     /// <returns>A DialogueManager holding the file reference</returns>
     public static DialogueManager LoadDialogueFile (DialogueFile file) {
-
         if (managers.ContainsKey (file))
             return managers[file];
 
@@ -190,6 +189,18 @@ public class DialogueManager {
 
         manager.file = file;
 
+        return manager;
+    }
+    public static DialogueManager GetFileFromJSON (string json) {
+        DialogueFile dialogueFile = DialogueFile.CreateInstance ("DialogueFile") as DialogueFile;
+        JsonUtility.FromJsonOverwrite (json, dialogueFile);
+        Debug.Log (dialogueFile.ToString ());
+        if (managers.ContainsKey (dialogueFile)) {
+            return managers[dialogueFile];
+        }
+        DialogueManager manager = new DialogueManager ();
+        managers.Add (dialogueFile, manager);
+        manager.file = dialogueFile;
         return manager;
     }
 
@@ -213,44 +224,5 @@ public class DialogueManager {
         }
         return result;
     }
-}
 
-public class OnlineDialogue : MonoBehaviour {
-    string JSONText = "";
-
-    public string GetJSON (string url) {
-        StartCoroutine (GetText (url));
-        return JSONText;
-    }
-
-    /*public Dialogue MakeDialogueFromJSON (string json) {
-        Dictionary<string, object> jValue = new Dictionary<string, object> ();
-        Dialogue dialogue = new Dialogue ();
-        return new Dialogue ();
-    }
-    //Tries to convert any json into a Dialogue JSON
-    public string ValidateJSON (string json, string id_name, string speaker_name, string dialogue_name, string userdata_name) {
-        //Normally this requires  the user to translateg and add anything that may be missing.
-        GetJSON (json);
-        Dictionary<string, object> jValue = new Dictionary<string, object> ();
-        jValue = Json.Deserialize (JSONText) as Dictionary<string, object>;
-        string nJson = "{\n\"entries\": [\n{\"id\":\"Main\",\n\"maxLineId\": 1,\n\"speakers\": [ \"" + jValue[speaker_name] + "\n}\n],";
-        Debug.Log (jValue);
-        for (int i = 0; i < jValue.Count; i++) {
-
-        }
-
-        return "";
-    }*/
-
-    public IEnumerator GetText (string url) {
-        UnityWebRequest webReuest = UnityWebRequest.Get (url);
-        yield return webReuest.SendWebRequest ();
-        if (webReuest.isNetworkError || webReuest.isHttpError) {
-            JSONText = "ERROR\n" + webReuest.error;
-            Debug.Log (JSONText);
-        } else {
-            JSONText = webReuest.downloadHandler.text;
-        }
-    }
 }

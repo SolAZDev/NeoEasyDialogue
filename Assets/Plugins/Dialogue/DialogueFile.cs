@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -98,4 +99,14 @@ public class DialogueFile : ScriptableObject {
     /// </summary>
     [HideInInspector]
     public List<DialogueLine> lines = new List<DialogueLine> ();
+
+    public string ToString () {
+        string result = System.String.Empty;
+        foreach (DialogueLine line in lines) {
+            result += line.id + ":" + line.speaker + ":" + line.dialogueEntry + ":" + line.dialogue;
+        }
+        return result;
+    }
+
+    //public static Dialogue FromJSON (string json) {}
 }
