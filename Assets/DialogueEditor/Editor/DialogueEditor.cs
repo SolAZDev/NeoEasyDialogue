@@ -196,10 +196,10 @@ public class DialogueEditor : EditorWindow {
 			saveUndo ("creating dialogue file");
 			// create new dialogueFile
 			DialogueFile file = ScriptableObject.CreateInstance<DialogueFile> ();
-			string save = EditorUtility.SaveFilePanel ("Save Dialogue File", "Assets/", "Script", "asset");
+			string save = EditorUtility.SaveFilePanel ("Save Dialogue File", "Assets/Resources/", "Script", "asset");
 			//Debug.Log (save.Substring (save.IndexOf ("Assets") - 1));
 			//AssetDatabase.CreateAsset (file, AssetDatabase.GenerateUniqueAssetPath (save.Substring (save.IndexOf ("Assets") -	 1)));
-			AssetDatabase.CreateAsset (file, AssetDatabase.GenerateUniqueAssetPath (save.Substring(save.IndexOf("Assets/")-1)));
+			AssetDatabase.CreateAsset (file, AssetDatabase.GenerateUniqueAssetPath (save.Substring (save.IndexOf ("Assets/") - 1)));
 			AssetDatabase.SaveAssets ();
 			files.Add (file);
 			buildFilePopupArray ();
@@ -260,6 +260,18 @@ public class DialogueEditor : EditorWindow {
 			SerializeToJson (filename, files[filePopupSelectedIndex]);
 			AssetDatabase.Refresh ();
 		}
+		if (GUILayout.Button ("ExDialgue")) {
+			string filename = EditorUtility.SaveFilePanelInProject ("Export dialogue", files[filePopupSelectedIndex].name, "json", "");
+			Dialogue result = new Dialogue ();
+			for (int i = 0; i < files[filePopupSelectedIndex].entries.Count; i++) {
+				if (files[filePopupSelectedIndex].entries[i] == selectedEntry) {
+
+					result.AddLine (files[filePopupSelectedIndex].lines[i]);
+				}
+			}
+			File.WriteAllText (filename, JsonUtility.ToJson (result));
+
+		}
 		if (filePopupSelectedIndex < 0)
 			GUI.enabled = true;
 		GUILayout.EndHorizontal ();
@@ -276,7 +288,7 @@ public class DialogueEditor : EditorWindow {
 					if (GUILayout.Button (entry.id, (GUIStyle)
 							"label")) {
 						selectedEntry = entry;
-						// build windows
+						// build windows	
 						createWindows ();
 					}
 				}

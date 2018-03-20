@@ -112,6 +112,7 @@ public class Dialogue {
     /// </summary>
     /// <param name="line">The line to be added</param>
     public void AddLine (DialogueFile.DialogueLine line) {
+       // Debug.Log (line.dialogue);
         lines.Add (line.id, line);
     }
 
@@ -131,7 +132,7 @@ public class Dialogue {
         List<Choice> choices = new List<Choice> ();
 
         foreach (int id in lines[currentIndex].output) {
-            Choice c = new Choice ();   
+            Choice c = new Choice ();
             c.id = id;
             c.dialogue = lines[id].dialogue;
             c.speaker = lines[id].speaker;
@@ -147,7 +148,7 @@ public class Dialogue {
     /// </summary>
     /// <param name="c"></param>
     public void PickChoice (Choice c) {
-        currentIndex = c.id;    
+        currentIndex = c.id;
     }
 }
 
@@ -192,6 +193,7 @@ public class DialogueManager {
         return manager;
     }
     public static DialogueManager GetFileFromJSON (string json) {
+        Debug.Log (json);
         DialogueFile dialogueFile = DialogueFile.CreateInstance ("DialogueFile") as DialogueFile;
         JsonUtility.FromJsonOverwrite (json, dialogueFile);
         Debug.Log (dialogueFile.ToString ());
@@ -223,6 +225,18 @@ public class DialogueManager {
                 result.AddLine (line);
         }
         return result;
+    }
+
+    public int SpeakerLines (string dialogueName, string name) {
+        int a = 0;
+        foreach (DialogueFile.DialogueLine line in file.lines) {
+            if (line.dialogueEntry == dialogueName) {
+                if (line.speaker == name) {
+                    a++;
+                }
+            }
+        }
+        return a;
     }
 
 }

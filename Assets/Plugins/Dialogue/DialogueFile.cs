@@ -51,6 +51,17 @@ public class DialogueFile : ScriptableObject {
         /// The speaker that is saying this line
         /// </summary>
         public string speaker = "";
+
+        public static DialogueLine MakeLine (int id, string dialogueEntry, string dialogue, List<int> output, string userData, string speaker) {
+            DialogueLine line= new DialogueLine();
+            line.id = id;
+            line.dialogueEntry = dialogueEntry;
+            line.dialogue = dialogue;
+            line.output = output;
+            line.userData = userData;
+            line.speaker = speaker;
+            return line;
+        }
     }
 
     /// <summary>

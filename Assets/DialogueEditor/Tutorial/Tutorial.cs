@@ -29,11 +29,11 @@ class Tutorial : MonoBehaviour
     {
         GUILayout.BeginArea(new Rect(10, 10, 680, 560));
         GUILayout.Label(currentChoice.dialogue);
-        if (currentDialogue.GetChoices().Length > 1)
+        if (currentDialogue.GetChoices().Count > 1)
         {
             // sort list
-            Dialogue.Choice[] list = currentDialogue.GetChoices();
-            System.Array.Sort(list, (o1, o2) => o1.userData.CompareTo(o2.userData));
+            List<Dialogue.Choice> list = currentDialogue.GetChoices();
+            System.Array.Sort(list.ToArray(), (o1, o2) => o1.userData.CompareTo(o2.userData));
 
             GUILayout.BeginVertical();
             foreach (Dialogue.Choice choice in list)
@@ -46,7 +46,7 @@ class Tutorial : MonoBehaviour
             }
             GUILayout.EndVertical();
         }
-        else if (currentDialogue.GetChoices().Length == 1)
+        else if (currentDialogue.GetChoices().Count == 1)
         {
             if (GUILayout.Button("Next"))
             {
