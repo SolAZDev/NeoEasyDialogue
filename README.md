@@ -1,16 +1,16 @@
 # NeoEasyDialogue
-A Fork of Sander Homan's EasyDialogue, updated for Unity 2017 with JSON support
+A Fork of Sander Homan's EasyDialogue, updated for Unity 2017+ with JSON support
 
 ### Why Fork it?
-Sander Homan's work hasn't been updated since 2015, some of his work was already forked. This was forked to use JSON instead of XML, in hopes that the files can be used, and imported from elsewhere, amongst other things.
+Sander Homan's work hasn't been updated since 2015, some of his work was already forked. NeoEasyDialogue is a fork which looks  to improve the usability while keeping the flexibilty of the original. Originally forked to support JSON instead of XML, it's slowly growing more and more flexible and easier to use.
 
 ### Uses
-You need to implement the actual dialogue "viewer" in UI or however else you want, you are not limited to UI, so you can do pretty much anything with it. An example would be an exam that would use collissions as a way of selecting a choice.
-
-The Dialogue "Entries" have a dedicated custom string called "userData" this can be used as arguments to do many things (exmple being SolAZDev's [Basic Dialuge Manager](https://github.com/SolAZDev/BasicDialogueManager "Basic Dialogue Manager") which can be used for Cutscenes with arguments) 
+Originally, you'd need to implement the actual dialogue "viewer" however you want, you are not limited to UI, so you can do pretty much anything with it. This has an unlimited ammout of uses, from making novel-like scenes, fully animated scenes, quizes, and interactable (PvE) enviroments that continue the scene. Because it's exactly limited to a specific setting, you can do virtually anything with it. With this version of the project you can even download JSONs or text and translate it into a Dialogue or moreover, generate it with whatever information you get!
+  
+This project has been merged with SolAZDev's BasicSceneManager (CutSceneManager.cs), this will replace the Tutorial from the original EasyDialogue, but mind you, you can use this for production level cutscenes and in fact, what is described on above **can be done entirely using this script**.
 
 ### TODO
-* (Optional) Remake the Dialogue Editor
+* (Optional) **Remake the Dialogue Editor** (help truly appreciated)
 * (Optional) Yarn translator?
-* Give Basis for JSON translator (As all JSONs are made different, you'll have to translate it yourself, I included MiniJSON.cs for this.
+* Give Basis for JSON translator (As all JSONs are made different, you'll have to translate it yourself);
 * Open to suggestions, specially if you are willing to help.
