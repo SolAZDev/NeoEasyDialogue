@@ -2,28 +2,30 @@
 CutSceneManager is an (Neo)EasyDialogue UI script that was originally made to ease cutscenes similar to that of Persona (Q in particular) by making use of the Dialogue's userData variable, which can be used for various things. In this case, it's used as a command-line-like arguments which specify the action, these include (but are not limited to) moving, rotating and an "Actor", play and stop music, sounds and voice lines, and set Sprite based faces. Note that this project is still Work In Progress, and is open to suggestions.
 
 ### The Setup
-Setting up is fairly easy but there are things that **MUST** be set, these will be listed with a mark.
+Setting up is fairly easy but there are things that **MUST** be set, these will be listed with an N (as in not optional).
 
 #### Inspector Settings
-* Scene Details
-  * DialogueFile * must be included unless downloading a json.
-  * FileURL * must be included unless specified the DialogueFile.
-  * SceneID * This is which Dialogue/Entry is to be shown.
-  * FadeText // do you want to use the image-based fade effect?
-  * ~~Text Scroll Type ~~ //Coming soon (tm)
-  * voices // AudioSource from where the voice lines will play.
-  * Sounds // same but for Sound Effects
-  * Actors * List of Animators, this is where your 3D GameObjects go.
-  * Actors2D // Same as Actors but they're sprites (uGUI Image) -- Heavy WIP
-  * ReturnScene //Refferenced by the ExitScene function which is accessible via the UnityEvents
-* UI Settings 
-  * TextBox * this is the text field that will be used to show your dialogue
-  * ContinueBtn * this is used to progress the dialogue when it's less than 2 options
-  * ~~Text Anim~~ //to be removed soon? 
-  * Buttons * this is the multiple choice text list. This is handled dynamically by the ammount of choices available  
-  * FlashFade // If you wanna use the Flash command, you need an Image (uGUI)
-  * MiscImage // A single general use Image (uGUI) to display items and such
-  * ExitEvent // An optional UnityEvent for when the dialogue reaches an end
+| Scene Details | Optional? | Description |
+|---------------|----------|-------------|
+| File | Y/N | Offline file, must be set unless you're using a JSON URL |
+| FileURL | Y/N | Online link to RAW Json text |
+| SceneID | N | Scene in the file (as the file is a database) |
+| FadeText | Y | Want it to fade? |
+| Voices | Y | AudioSource for Voiced Lines |
+| Sounds | Y | Same but for sounds |
+| Actors | Y/N | List of Animators (these can be emtpy objects with an Animator Components) |
+| Actors2D | Y/N | Same but with Images (uGUI) |
+| ReturnScene | Y | Name of the Scene that ExitScene() will call |
+
+| UI Settings | Otpional? | Descritpion |
+|-------------|-----------|-------------|
+| TextBox | N | Text (uGUI) that'll display the Dialogue |
+| ContinueBtn | N | Button  that is dis/enabled when showing dialogue | 
+| ~~TextAnim~~ | ?? | Removed? |
+| Buttons | Y | List of Text (uGUI) (ironically) that shows the multiple choices |
+| Flash Fade| Y | Flash Fade Image (uGUI) |
+| ExitEvent | Y | This is accessed once the Dialogue reaches an end |
+
   
 #### Scene Settings
 * You need to build the UI Yourself.
