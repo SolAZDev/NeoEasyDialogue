@@ -4,6 +4,15 @@ CutSceneManager is an (Neo)EasyDialogue UI script that was originally made to ea
 ### The Setup
 Setting up is fairly easy but there are things that **MUST** be set, these will be listed with an N (as in not optional).
 
+#### Scene Settings
+* You need to build the UI Yourself.
+* The Main text box should be a button, which OnClick event should be CutSceneManager.Continue
+  * The child Text object should be set to the script's TextBox variable
+*Multiple Choice buttons should redirect to CutSceneManager.Answer( an answer number)
+  * set the text objects to the Buttons List.
+* Once you have your objects set up, add them to the Actors (or Actors2D) list.
+* If you're using an online file, specify it, you might wanna change the manager GetFileFromJSON line to suit your needs
+
 #### Inspector Settings
 | Scene Details | Optional? | Description |
 |---------------|----------|-------------|
@@ -26,15 +35,6 @@ Setting up is fairly easy but there are things that **MUST** be set, these will 
 | Flash Fade| Y | Flash Fade Image (uGUI) |
 | ExitEvent | Y | This is accessed once the Dialogue reaches an end |
 
-  
-#### Scene Settings
-* You need to build the UI Yourself.
-* The Main text box should be a button, which OnClick event should be CutSceneManager.Continue
-  * The child Text object should be set to the script's TextBox variable
-*Multiple Choice buttons should redirect to CutSceneManager.Answer( an answer number)
-  * set the text objects to the Buttons List.
-* Once you have your objects set up, add them to the Actors (or Actors2D) list.
-* If you're using an online file, specify it, you might wanna change the manager GetFileFromJSON line to suit your needs.
 
 ##### Things to know
 * **VERY IMPORTANT** before going to the Command list, most files will be loaded from a folder inside the Resources folder.
