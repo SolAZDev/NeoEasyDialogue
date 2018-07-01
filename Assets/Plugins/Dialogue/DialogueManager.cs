@@ -246,6 +246,7 @@ public class DialogueManager
     public int GetSpeakerLinesCount(string dialogueName, string name)
     {
         int a = 0;
+
         foreach (DialogueFile.DialogueLine line in file.lines)
         {
             if (line.dialogueEntry == dialogueName)
