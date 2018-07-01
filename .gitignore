@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/NeoEasyDialogue/v15/Server/sqlite3
+/Library
+/obj/Debug
+/Temp
+/NeoEasyDialogue.sln
+/Assembly-CSharp.csproj
+/Assembly-CSharp-firstpass.csproj
+/Assembly-CSharp-Editor.csproj
+/.vs/NeoEasyDialogue/v15

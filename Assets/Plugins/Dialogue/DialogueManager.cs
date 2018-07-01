@@ -69,18 +69,15 @@
  */
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using MiniJSON;
 using UnityEngine;
-using UnityEngine.Networking;
 /// <summary>
 /// This class contains all the lines and userdata configured for a specific dialogue
 /// </summary>
 [Serializable]
-public class Dialogue {
-    private Dictionary<int, DialogueFile.DialogueLine> lines = new Dictionary<int, DialogueFile.DialogueLine> ();
+public class Dialogue
+{
+    private Dictionary<int, DialogueFile.DialogueLine> lines = new Dictionary<int, DialogueFile.DialogueLine>();
 
     private int currentIndex = 0;
 
@@ -88,7 +85,8 @@ public class Dialogue {
     /// The choice class contains all the data of a node in the dialogue
     /// </summary>
     [Serializable]
-    public class Choice {
+    public class Choice
+    {
         /// <summary>
         /// Used internally. The identifier of a choice
         /// </summary>
@@ -111,15 +109,16 @@ public class Dialogue {
     /// Used internally. Adds a line to the dialogue.
     /// </summary>
     /// <param name="line">The line to be added</param>
-    public void AddLine (DialogueFile.DialogueLine line) {
-       // Debug.Log (line.dialogue);
-        lines.Add (line.id, line);
+    public void AddLine(DialogueFile.DialogueLine line)
+    {
+        lines.Add(line.id, line);
     }
 
     /// <summary>
     /// Resets the dialogue to the start
     /// </summary>
-    public void Start () {
+    public void Start()
+    {
         // set up the start of the dialogue
         currentIndex = 0;
     }
@@ -128,16 +127,18 @@ public class Dialogue {
     /// Gets all the possible choices for the current dialogue node
     /// </summary>
     /// <returns>An array of type Choice containing all the possible choices</returns>
-    public List<Choice> GetChoices () {
-        List<Choice> choices = new List<Choice> ();
+    public List<Choice> GetChoices()
+    {
+        List<Choice> choices = new List<Choice>();
 
-        foreach (int id in lines[currentIndex].output) {
-            Choice c = new Choice ();
+        foreach (int id in lines[currentIndex].output)
+        {
+            Choice c = new Choice();
             c.id = id;
             c.dialogue = lines[id].dialogue;
             c.speaker = lines[id].speaker;
             c.userData = lines[id].userData;
-            choices.Add (c);
+            choices.Add(c);
         }
 
         return choices; //.ToArray ();
@@ -147,7 +148,8 @@ public class Dialogue {
     /// Advanced the dialogue with the given choice. Could also be used to jump to a different position in the dialogue, but this is not recommended.
     /// </summary>
     /// <param name="c"></param>
-    public void PickChoice (Choice c) {
+    public void PickChoice(Choice c)
+    {
         currentIndex = c.id;
     }
 }
@@ -163,16 +165,18 @@ public class Dialogue {
 /// </example>
 /// </summary>
 [Serializable]
-public class DialogueManager {
-    private static Dictionary<DialogueFile, DialogueManager> managers = new Dictionary<DialogueFile, DialogueManager> ();
+public class DialogueManager
+{
+    private static Dictionary<DialogueFile, DialogueManager> managers = new Dictionary<DialogueFile, DialogueManager>();
 
     /// <summary>
     /// Load a dialogue file from the resources folder.
     /// </summary>
     /// <param name="resourcePath">The path in the Resource folder</param>
     /// <returns>A DialogueManager holding the file reference</returns>
-    public static DialogueManager LoadDialogueFile (string resourcePath) {
-        return LoadDialogueFile (Resources.Load (resourcePath) as DialogueFile);
+    public static DialogueManager LoadDialogueFile(string resourcePath)
+    {
+        return LoadDialogueFile(Resources.Load(resourcePath) as DialogueFile);
     }
 
     /// <summary>
@@ -180,33 +184,36 @@ public class DialogueManager {
     /// </summary>
     /// <param name="file">A reference to a DialogueFile</param>
     /// <returns>A DialogueManager holding the file reference</returns>
-    public static DialogueManager LoadDialogueFile (DialogueFile file) {
-        if (managers.ContainsKey (file))
+    public static DialogueManager LoadDialogueFile(DialogueFile file)
+    {
+        if (managers.ContainsKey(file))
             return managers[file];
 
         // load file, optimize for searching dialogues
-        DialogueManager manager = new DialogueManager ();
-        managers.Add (file, manager);
+        DialogueManager manager = new DialogueManager();
+        managers.Add(file, manager);
 
         manager.file = file;
 
         return manager;
     }
-    public static DialogueManager GetFileFromJSON (string json) {
-        Debug.Log (json);
-        DialogueFile dialogueFile = DialogueFile.CreateInstance ("DialogueFile") as DialogueFile;
-        JsonUtility.FromJsonOverwrite (json, dialogueFile);
-        Debug.Log (dialogueFile.ToString ());
-        if (managers.ContainsKey (dialogueFile)) {
+    public static DialogueManager GetFileFromJSON(string json)
+    {
+        Debug.Log(json);
+        DialogueFile dialogueFile = DialogueFile.CreateInstance("DialogueFile") as DialogueFile;
+        JsonUtility.FromJsonOverwrite(json, dialogueFile);
+        Debug.Log(dialogueFile.ToString());
+        if (managers.ContainsKey(dialogueFile))
+        {
             return managers[dialogueFile];
         }
-        DialogueManager manager = new DialogueManager ();
-        managers.Add (dialogueFile, manager);
+        DialogueManager manager = new DialogueManager();
+        managers.Add(dialogueFile, manager);
         manager.file = dialogueFile;
         return manager;
     }
 
-    private DialogueManager () { }
+    private DialogueManager() { }
 
     private DialogueFile file;
 
@@ -215,23 +222,37 @@ public class DialogueManager {
     /// </summary>
     /// <param name="dialogueName">The name of the dialogue</param>
     /// <returns>A Dialogue containing all the lines</returns>
-    public Dialogue GetDialogue (string dialogueName) {
+    public Dialogue GetDialogue(string dialogueName)
+    {
         // create the dialogue and return it
-        Dialogue result = new Dialogue ();
+        Dialogue result = new Dialogue();
 
         // get the lines
-        foreach (DialogueFile.DialogueLine line in file.lines) {
+        foreach (DialogueFile.DialogueLine line in file.lines)
+        {
             if (line.dialogueEntry == dialogueName)
-                result.AddLine (line);
+                result.AddLine(line);
         }
         return result;
     }
 
-    public int SpeakerLines (string dialogueName, string name) {
+
+    /// <summary>
+    /// Counts the total amount of lines for a speaker.
+    /// </summary>
+    /// <param name="dialogueName">The name of the dialogue</param>
+    /// <param name="name">The name of the speaker</param>
+    /// <returns></returns>
+    public int GetSpeakerLinesCount(string dialogueName, string name)
+    {
         int a = 0;
-        foreach (DialogueFile.DialogueLine line in file.lines) {
-            if (line.dialogueEntry == dialogueName) {
-                if (line.speaker == name) {
+
+        foreach (DialogueFile.DialogueLine line in file.lines)
+        {
+            if (line.dialogueEntry == dialogueName)
+            {
+                if (line.speaker == name)
+                {
                     a++;
                 }
             }

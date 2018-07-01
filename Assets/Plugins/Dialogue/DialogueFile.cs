@@ -111,7 +111,7 @@ public class DialogueFile : ScriptableObject {
     [HideInInspector]
     public List<DialogueLine> lines = new List<DialogueLine> ();
 
-    public string ToString () {
+    public override string ToString () {
         string result = System.String.Empty;
         foreach (DialogueLine line in lines) {
             result += line.id + ":" + line.speaker + ":" + line.dialogueEntry + ":" + line.dialogue;
